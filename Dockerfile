@@ -2,7 +2,7 @@ FROM gui-apps-base:18.04
 MAINTAINER Gabriel Ionescu <gabi.ionescu+dockerthings@protonmail.com>
 
 RUN apt-get update \
- && apt-get install -y \
+ && apt-get install -y --no-install-recommends \
         libcurl4 \
         libsodium23 \
         libxi6 \
@@ -11,11 +11,13 @@ RUN apt-get update \
         keepassxc \
  && apt-get clean -y \
  && apt-get autoclean -y \
- && apt-get autoremove -y
+ && apt-get autoremove -y \
+ && mkdir -p /home/$DOCKER_USERNAME/data/db \
+ && mkdir -p /home/$DOCKER_USERNAME/data/key \
+ && chown $DOCKER_USERNAME:$DOCKER_GROUPID -R /home/$DOCKER_USERNAME/data
 
 # SET USER
 USER $DOCKER_USERNAME
 
 # ENTRYPOINT
 ENTRYPOINT /usr/bin/keepassxc
-
