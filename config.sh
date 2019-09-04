@@ -1,13 +1,17 @@
 #!/bin/bash
 
 # Command used to launch docker
-DOCKER_CMD='sudo docker'
+DOCKER_CMD='docker'
 
 # Where to store the backups
 BACKUP_PATH='/media/store/docker-backup'
 
 # The name of the docker image
 PROJECT_NAME="keepass"
+
+# Keepass DB & KEY dir paths
+KEEPASS_DB_PATH="`pwd`/data/db"
+KEEPASS_KEY_PATH="`pwd`/data/key"
 
 # BUILD ARGS
 BUILD_ARGS=(
@@ -21,8 +25,8 @@ RUN_ARGS=(
     --memory="256m"
     --cpu-shares=1024
 
-    -v $(pwd)/data/db:/home/$(whoami)/data/db
-    -v $(pwd)/data/key:/home/$(whoami)/data/key
+    -v $KEEPASS_DB_PATH:/home/$(whoami)/data/db
+    -v $KEEPASS_KEY_PATH:/home/$(whoami)/data/key
     -v $(pwd)/data/config/keepassxc:/home/$(whoami)/.config/keepassxc
     -v $(pwd)/data/config/QtProject.conf:/home/$(whoami)/.config/QtProject.conf
 
